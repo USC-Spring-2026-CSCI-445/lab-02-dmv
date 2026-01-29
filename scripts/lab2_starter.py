@@ -15,7 +15,12 @@ class Cliff:
     """
 
     def __init__(self, print_dt: float = 0.5):
-        self.cliff_sub = rospy.Subscriber("/sensor_state", SensorState, self.sensor_state_callback, queue_size=1)
+        self.cliff_sub = rospy.Subscriber(
+            "/sensor_state",
+            SensorState,
+            self.sensor_state_callback,
+            queue_size=1,
+        )
         self.print_dt = print_dt
         self.t_last_print = time()
 
@@ -24,14 +29,17 @@ class Cliff:
             return
         self.t_last_print = time()
         raw = state.cliff
-        distance = 0.0  # TODO: fit function mapping raw to distance
+        # distance = 0.0  # TODO: fit function mapping raw to distance
 
         ######### Your code starts here #########
-        # calculation from raw sensor value to distance (Step 3.3 of lab)
-        
+        distance_wood = 2331.838 * raw**-1.601
+        distance_foam = 1786.298 * raw**-1.547
+
         ######### Your code ends here #########
 
-        print(f"raw: {raw}\tdistance: {distance}")
+        print(
+            f"raw: {raw}\tdistance_wood: {distance_wood}\tdistance_foam: {distance_foam}"
+        )
 
 
 if __name__ == "__main__":
